@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceCRM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 pb-20"> <!-- Padding bottom for fixed footer -->
+    
+    <!-- Top Bar for Desktop - Optional, or kept simple -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 hidden md:block">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="/dashboard" class="text-xl font-bold text-indigo-600">FinanceCRM</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <% if (error && error.length > 0) { %>
+            <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline"><%= error %></span>
+            </div>
+        <% } %>
+        <% if (success && success.length > 0) { %>
+            <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <span class="block sm:inline"><%= success %></span>
+            </div>
+        <% } %>
+
+        <%- body %>
+    </main>
+
+    <% if (user) { %>
+    <!-- Mobile Bottom Navigation -->
+    <div class="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 h-16 flex items-center justify-around z-50">
+        <!-- Home -->
+        <a href="/dashboard" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-indigo-600 focus:text-indigo-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span class="text-xs">Home</span>
+        </a>
+
+        <!-- Receitas -->
+        <a href="/finance?type=revenue" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-green-600 focus:text-green-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12" />
+            </svg>
+            <span class="text-xs">Receitas</span>
+        </a>
+
+        <!-- Despesas -->
+        <a href="/finance?type=expense" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-red-600 focus:text-red-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+            </svg>
+            <span class="text-xs">Despesas</span>
+        </a>
+
+        <!-- Perfil (Avatar) -->
+        <a href="/profile" class="flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-indigo-600 focus:text-indigo-600">
+            <div class="w-7 h-7 rounded-full overflow-hidden border border-gray-300 mb-1">
+                <img class="w-full h-full object-cover" 
+                     src="<%= (user && user.avatar) ? user.avatar : 'https://ui-avatars.com/api/?name=' + (user ? user.name : 'User') + '&background=random' %>" 
+                     alt="Perfil">
+            </div>
+            <span class="text-xs">Perfil</span>
+        </a>
+    </div>
+    <% } %>
+
+</body>
+</html>
